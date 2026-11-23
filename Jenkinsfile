@@ -1,42 +1,14 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Verify Source Code') {
-            steps {
-                sh 'test -f package.json'
-                sh 'echo "OWASP Juice Shop source code verified successfully"'
-            }
-        }
+node {
+    stage('Checkout') {
+        checkout scm
     }
-}pipeline {
-    agent any
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/valens24/usengimana-cat.git'
-            }
-        }
+    stage('Verify Source Code') {
+        sh 'test -f package.json'
+        sh 'echo "OWASP Juice Shop source code verified successfully"'
+    }
 
-        stage('Docker Image') {
-            steps {
-                sh 'docker images usengimana/usengimana-cat:v6'
-            }
-        }
-
-        stage('Verify Project') {
-            steps {
-                sh 'ls -la'
-                sh 'test -f package.json'
-            }
-        }
+    stage('Build Status') {
+        echo 'Jenkins CI pipeline completed successfully'
     }
 }
